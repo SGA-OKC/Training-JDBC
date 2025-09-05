@@ -256,6 +256,67 @@ public class Main {
 
     public static void associarMateriaPrimaOrdem(){
 
+        List<Integer> opcoesMateria = new ArrayList<>();
+        MateriaPrimaDAO daoMateria = new MateriaPrimaDAO();
+        List<MateriaPrima> materiaPrimas = new ArrayList<>();
+
+        if (!materiaPrimas.isEmpty()) {
+
+            for (MateriaPrima matPrima : materiaPrimas) {
+                System.out.println("\n----- MATERIAS-PRIMAS -----");
+                System.out.println("ID: " + matPrima.getId());
+                System.out.println("NOME: " + matPrima.getNome());
+                System.out.println("ESTOQUE: " + matPrima.getEstoque());
+
+                opcoesMateria.add(matPrima.getId());
+            }
+
+            System.out.println("Selecione o ID da materia-prima: ");
+            int idMateria = SC.nextInt();
+            SC.nextLine();
+
+            if (opcoesMateria.contains(idMateria)) {
+                boolean sair = false;
+                while (!sair) {
+
+                    System.out.println("Digite a quantidade: ");
+                    double quantidade = SC.nextDouble();
+                    SC.nextLine();
+
+                    double quantidadeEstoque = 0;
+
+                    for (MateriaPrima materiaPrima : materiaPrimas) {
+                        if (quantidade == materiaPrima.getEstoque()) {
+                            quantidadeEstoque = materiaPrima.getEstoque();
+                            System.out.println("Matéria-Prima associada a ordem com sucesso!");
+                        }
+                    }
+                    if (quantidadeEstoque < quantidade) {
+
+                        MateriaPrima matePrima = new MateriaPrima(idMateria, quantidade);
+                        daoMateria.inserirMateriaPrima(matePrima);
+
+                        System.out.println("Deseja selecionar outra materia-prima? ");
+                        System.out.println("1 - Sim");
+                        System.out.println("2 - Não");
+                        int opcaoSair = SC.nextInt();
+                        SC.nextLine();
+
+                        if (opcaoSair == 2) {
+                            sair = true;
+                        }
+                    } else {
+                        System.out.println("Estoque insuficiente");
+                        associarMateriaPrimaOrdem();
+                    }
+                }
+            } else {
+                System.out.println("Opcao Invalida!");
+                associarMateriaPrimaOrdem();
+            }
+        }else {
+            System.out.println("Sem ordens disponiveis!");
+        }
     }
 
     public static void executarProducao(){
@@ -263,6 +324,28 @@ public class Main {
     }
 
     public static void consultarOrdensEstoque(){
+
+        List<Integer> opcoesProducao = new ArrayList<>();
+        OrdemProducaoDAO ordemDAO = new OrdemProducaoDAO();
+        List<OrdemProducao> ordemProducaos = new ArrayList<>();
+
+        for (OrdemProducao ordemPro : ordemProducaos){
+            System.out.println("ID: " + ordemPro.getId());
+            System.out.println("ID PRODUTO: " + ordemPro.getIdProduto());
+            System.out.println("ID MÁQUINA: " + ordemPro.getIdMaquina());
+            System.out.println("QUANTIDADE PRODUZIR: " + ordemPro.getQuantidadeProduzir());
+            System.out.println("STATUS: " + ordemPro.getStatus());
+
+            opcoesProducao.add(ordemPro.getId());
+        }
+
+
+
+
+        MateriaPrimaDAO materiaDAO = new MateriaPrimaDAO();
+        materiaDAO.listarMateriaPrima();
+
+
 
     }
 }

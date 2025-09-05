@@ -13,6 +13,10 @@ public class MateriaPrima {
         this.nome = nome;
         this.estoque = estoque;
     }
+    public MateriaPrima(int id, double estoque) {
+        this.id = id;
+        this.estoque = estoque;
+    }
 
     public int getId() {
         return id;
