@@ -48,6 +48,7 @@ public class ProdutoDAO {
                 String categoria = rs.getString("categoria");
 
                 Produto produto = new Produto(id,nome,categoria);
+                produtos.add(produto);
             }
         }catch (SQLException e){
             e.printStackTrace();

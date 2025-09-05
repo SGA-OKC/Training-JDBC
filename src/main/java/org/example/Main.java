@@ -184,7 +184,6 @@ public class Main {
         }
     }
 
-    //PRECISA VER ESSE ERRO
     public static void criarOrdemProducao(){
 
         List<Integer> opcoesProduto = new ArrayList<>();
@@ -214,8 +213,8 @@ public class Main {
                 System.out.println("\n-----MÁQUINAS-----");
                 System.out.println("ID: " + maquina.getId());
                 System.out.println("NOME MÁQUINA: " + maquina.getNome());
-                System.out.println("ID DO SETOR: " + maquina.getIdSetor());
                 System.out.println("STATUS: " + maquina.getStatus());
+                System.out.println("---------------------------------------");
 
                 opcoesMaquina.add(maquina.getId());
             }
@@ -229,13 +228,21 @@ public class Main {
             SC.nextLine();
 
             if (opcoesMaquina.contains(idMaquina)){
+
+                System.out.println("Digite a quantidade a ser produzida: ");
+                double qntProduzir = SC.nextDouble();
+                SC.nextLine();
+
                 OrdemProducaoDAO ordemDAO = new OrdemProducaoDAO();
-                OrdemProducao ordemProducao = new OrdemProducao(idProduto,idMaquina,quantidadeProduzir,LocalDate.now(), "PENDENTE");
+                OrdemProducao ordemProducao = new OrdemProducao(idProduto,idMaquina,qntProduzir,LocalDate.now(), "PENDENTE");
+
                 try{
                     ordemDAO.inserirOrdem(ordemProducao);
                     maquinaDAO.atualizarStatus(idMaquina,"EM_PRODUCAO");
+                    System.out.println("Ordem de produção criada com sucesso!");
                 } catch (RuntimeException e){
                     e.printStackTrace();
+                    System.out.println("Erro ao criar a ordem de produção!");
                 }
             }else {
                 System.out.println("Opção Invalidada");

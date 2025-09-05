@@ -64,7 +64,6 @@ public class MateriaPrimaDAO {
             PreparedStatement stmt = conn.prepareStatement(query)){
 
             stmt.setString(1, nome);
-
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()){

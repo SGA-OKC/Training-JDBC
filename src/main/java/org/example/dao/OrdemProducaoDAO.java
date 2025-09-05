@@ -31,7 +31,8 @@ public class OrdemProducaoDAO {
 
         public List<OrdemProducao> listarOrdemProducaoPendente(){
             String query = """
-                    SELECT idProduto
+                    SELECT id
+                          ,idProduto
                           ,idMaquina
                           ,dataSolicitacao
                           ,quantidadeProduzir
@@ -46,13 +47,14 @@ public class OrdemProducaoDAO {
                 ResultSet rs = stmt.executeQuery();
 
                 while (rs.next()){
+                    int id = rs.getInt("id");
                     int idProduto = rs.getInt("idProduto");
                     int idMaquina = rs.getInt("idMaquina");
                     double quantidadeProduzir = rs.getDouble("quantidadeProduzir");
                     Date dataSolicitacao = rs.getDate("dataSolicitacao");
                     String status = rs.getString("status");
 
-                    OrdemProducao ordemProducao = new OrdemProducao(idProduto,idMaquina,quantidadeProduzir,dataSolicitacao.toLocalDate(),status);
+                    OrdemProducao ordemProducao = new OrdemProducao(id,idProduto,idMaquina,quantidadeProduzir,dataSolicitacao.toLocalDate(),status);
                     ordemProducaos.add(ordemProducao);
                 }
 
@@ -63,7 +65,7 @@ public class OrdemProducaoDAO {
         }
 
         public void atualizarStatusOrdem(int idOrdem){
-            String query = "UPDATE Maquina SET status = 'CONCLUIDA' WHERE ID = ?";
+            String query = "UPDATE OrdemProducao SET status = 'EXECUTADA' WHERE id = ?";
 
 
             try(Connection conn = Conexao.conectar();

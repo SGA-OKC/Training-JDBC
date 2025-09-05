@@ -62,7 +62,7 @@ public class MaquinaDAO {
                       ,nome
                       ,idSetor
                       ,status
-                FROM Produto
+                FROM Maquina
                 WHERE status = 'OPERACIONAL'
                 """;
         List<Maquina> maquinas = new ArrayList<>();
